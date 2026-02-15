@@ -114,15 +114,26 @@ const exportMyRecords = async (req, res) => {
         // CSV Header
         let csv = 'Data,Stato,Mattina Inizio,Mattina Fine,Pomeriggio Inizio,Pomeriggio Fine,Note\n';
 
+        // Helper to format date YYYY-MM-DD -> DD/MM/YYYY
+        const formatDate = (isoDate) => {
+            if (!isoDate) return '';
+            const [y, m, d] = isoDate.split('-');
+            return `${d}/${m}/${y}`;
+        };
+
         // CSV Rows
         records.forEach(r => {
+            const formattedDate = formatDate(r.date);
+            const fullDate = r.date; // Use YYYY-MM-DD for combining with time for ISO-like timestamp, or use formatted? 
+            // Usually timestamp is YYYY-MM-DD HH:mm:ss. Let's stick to that for the combo, but show DD/MM/YYYY for the Data column.
+
             const row = [
-                r.date, // Already formatted by SQL query
+                formattedDate,
                 r.status,
-                r.morningStart || '',
-                r.morningEnd || '',
-                r.afternoonStart || '',
-                r.afternoonEnd || '',
+                r.morningStart ? `${fullDate} ${r.morningStart}` : '',
+                r.morningEnd ? `${fullDate} ${r.morningEnd}` : '',
+                r.afternoonStart ? `${fullDate} ${r.afternoonStart}` : '',
+                r.afternoonEnd ? `${fullDate} ${r.afternoonEnd}` : '',
                 `"${(r.notes || '').replace(/"/g, '""')}"` // Escape quotes in notes
             ].join(',');
             csv += row + '\n';
