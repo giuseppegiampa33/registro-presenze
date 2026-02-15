@@ -10,6 +10,7 @@ import Signup from "./pages/Signup";
 import Dashboard from "./pages/Dashboard";
 import CalendarPage from "./pages/CalendarPage";
 import InsertData from "./pages/InsertData";
+import ExportCsv from "./pages/ExportCsv";
 import ProfilePage from "./pages/ProfilePage";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminUsers from "./pages/admin/AdminUsers";
@@ -32,6 +33,7 @@ const App = () => (
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/calendario" element={<CalendarPage />} />
             <Route path="/inserisci" element={<InsertData />} />
+            <Route path="/esporta" element={<ExportCsv />} />
             <Route path="/profilo" element={<ProfilePage />} />
             <Route path="/admin" element={<AdminDashboard />} />
             <Route path="/admin/tirocinanti" element={<AdminUsers />} />

@@ -6,8 +6,7 @@ import DashboardLayout from '@/components/DashboardLayout';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { CalendarDays, CheckCircle, XCircle, Clock, PenSquare, Download } from 'lucide-react';
-import { downloadCsv } from '@/lib/api';
+import { CalendarDays, CheckCircle, XCircle, Clock, PenSquare } from 'lucide-react';
 
 export default function Dashboard() {
   const { user, getRecordsForUser, getTodayRecord } = useAuth();
@@ -47,15 +46,6 @@ export default function Dashboard() {
               {getCompanyName(user.companyId)} — {new Date().toLocaleDateString('it-IT', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}
             </p>
           </div>
-          <Button variant="outline" onClick={async () => {
-            try {
-              await downloadCsv();
-            } catch (err) {
-              alert('Errore durante il download del CSV');
-            }
-          }}>
-            <Download className="mr-2 h-4 w-4" /> Esporta CSV
-          </Button>
         </div>
 
         {/* Stats */}

@@ -4,7 +4,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { getCompanyName } from '@/lib/constants';
 import {
   LayoutDashboard, Calendar, PenSquare, User, LogOut, Users, ClipboardList,
-  Menu, X, ChevronRight
+  Menu, X, ChevronRight, Download
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -12,6 +12,7 @@ const internLinks = [
   { to: '/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
   { to: '/calendario', icon: Calendar, label: 'Calendario' },
   { to: '/inserisci', icon: PenSquare, label: 'Inserisci Dati' },
+  { to: '/esporta', icon: Download, label: 'Esporta CSV' },
   { to: '/profilo', icon: User, label: 'Profilo' },
 ];
 
