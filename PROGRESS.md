@@ -1,46 +1,46 @@
-# Intern Time Tracker - Project Progress
+# Intern Time Tracker - Progressi del Progetto
 
-This document tracks the evolution of the project, documenting all major features, refactors, and bug fixes implemented over time.
-
----
-
-## 📅 February 2026 - Modernization & Responsiveness Phase
-
-### 1. Dashboard Responsiveness Overhaul
-- **Goal**: Make the dashboard mobile-friendly and adaptable to all screen sizes.
-- **Key Changes**:
-  - Implemented a layout using Viewport Height (`vh`) and Percentages (`%`) to avoid scrolling on small screens.
-  - Refactored `DashboardLayout` to include a responsive sidebar that collapses into a bottom navigation bar or mobile menu.
-  - Optimized font sizes and spacing for better readability on smartphones.
-
-### 2. Calendar Page Revamp (Advanced Features)
-- **Goal**: Improve user interaction with the attendance history.
-- **Key Changes**:
-  - **New Layout**: Split view with the Calendar on the left and a Details/Statistics panel on the right.
-  - **Visual Stats**: Added a donut chart (using `recharts`) that visualizes the percentage of Present, Late, and Absent days for the current month.
-  - **Enhanced Selection**: Users can now click on **any day** (even those without data) to see its status.
-  - **Interactivity**: Hover effects and click events that dynamically update the side panel with daily notes and work hours.
-
-### 3. UI/UX Consistency & Standardization
-- **Goal**: Create a premium and uniform feel across the entire application.
-- **Key Changes**:
-  - **Typography**: Standardized all page headers to `text-2xl font-bold` and subheaders to `text-sm text-muted-foreground`.
-  - **Alignment**: Refactored the "Insert Data" and "Profile" pages to follow the same full-width, left-aligned layout as the Dashboard.
-  - **Consistency**: Centralized spacing and gap patterns (e.g., `flex flex-col gap-4`) for a professional look.
-
-### 4. Technical Fixes & Enhancements
-- **Goal**: Solve critical bugs and improve system stability.
-- **Key Changes**:
-  - **Profile Picture Fix**: Resolved an issue where profile pictures would disappear after upload due to security header blocks (Helmet) and missing API response fields.
-  - **Bug Squashing**: Fixed various syntax errors and layout breaks discovered during the refactoring process.
-  - **Admin View**: Applied the same premium styling to Admin pages (User List, Registry).
+Questo documento traccia l'evoluzione del progetto, documentando tutte le principali funzionalità, i refactoring e le correzioni di bug implementati nel tempo.
 
 ---
 
-## 🛠️ Ongoing Tasks
-- [x] Responsive Dashboard Implementation
-- [x] Calendar interactivity & Stats
-- [x] Empty day selection logic
-- [x] Standardization of all page headers
-- [ ] PWA Support (Future)
-- [ ] Push Notifications for Shift reminders (Future)
+## 📅 Febbraio 2026 - Fase di Modernizzazione e Responsività
+
+### 1. Revisione Responsività della Dashboard
+- **Obiettivo**: Rendere la dashboard adatta ai dispositivi mobili e adattabile a tutte le dimensioni dello schermo.
+- **Modifiche Chiave**:
+  - Implementato un layout che utilizza Viewport Height (`vh`) e Percentuali (`%`) per evitare lo scrolling su schermi piccoli.
+  - Refactoring di `DashboardLayout` per includere una sidebar responsiva che si contrae in una barra di navigazione inferiore o in un menu mobile sui dispositivi piccoli.
+  - Ottimizzazione delle dimensioni dei font e delle spaziature per una migliore leggibilità su smartphone.
+
+### 2. Rinnovamento Pagina Calendario (Funzionalità Avanzate)
+- **Obiettivo**: Migliorare l'interazione dell'utente con lo storico delle presenze.
+- **Modifiche Chiave**:
+  - **Nuovo Layout**: Vista divisa con il Calendario a sinistra e un pannello di Dettagli/Statistiche a destra.
+  - **Statistiche Visuali**: Aggiunto un grafico a ciambella (usando `recharts`) che visualizza la percentuale di giorni Presente, In Ritardo e Assente per il mese corrente.
+  - **Selezione Migliorata**: Gli utenti possono ora cliccare su **qualsiasi giorno** (anche quelli senza dati) per vederne lo stato.
+  - **Interattività**: Effetti hover ed eventi click che aggiornano dinamicamente il pannello laterale con note giornaliere e ore di lavoro.
+
+### 3. Consistenza UI/UX e Standardizzazione
+- **Obiettivo**: Creare un'esperienza premium e uniforme in tutta l'applicazione.
+- **Modifiche Chiave**:
+  - **Tipografia**: Standardizzati tutti gli header delle pagine a `text-2xl font-bold` e i sotto-header a `text-sm text-muted-foreground`.
+  - **Allineamento**: Refactoring delle pagine "Inserisci Dati" e "Profilo" per seguire lo stesso layout a larghezza intera e allineato a sinistra della Dashboard.
+  - **Uniformità**: Centralizzati i pattern di spaziatura (es. `flex flex-col gap-4`) per un aspetto professionale.
+
+### 4. Correzioni Tecniche e Miglioramenti
+- **Obiettivo**: Risolvere bug critici e migliorare la stabilità del sistema.
+- **Modifiche Chiave**:
+  - **Fix Foto Profilo**: Risolto un problema per cui le foto del profilo sparivano dopo l'upload a causa dei blocchi degli header di sicurezza (Helmet) e della mancanza di campi nella risposta API.
+  - **Correzione Bug**: Risolti vari errori di sintassi e problemi di layout scoperti durante il processo di refactoring.
+  - **Vista Admin**: Applicato lo stesso stile premium alle pagine Admin (Lista Utenti, Registro).
+
+---
+
+## 🛠️ Attività in Corso
+- [x] Implementazione Dashboard Responsiva
+- [x] Interattività Calendario e Statistiche
+- [x] Logica di selezione giorni vuoti
+- [x] Standardizzazione di tutti gli header delle pagine
+- [ ] Supporto PWA (Futuro)
+- [ ] Notifiche Push per i promemoria dei turni (Futuro)

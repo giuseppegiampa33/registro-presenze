@@ -1,99 +1,99 @@
-# Intern Time Tracker - Technical Documentation
+# Intern Time Tracker - Documentazione Tecnica
 
-This document provides a deep dive into the technical architecture, design decisions, and implementation details of the Intern Time Tracker application.
-
----
-
-## 🏗️ System Architecture
-
-The application follows a classic **Full-stack Client-Server architecture**:
-
-- **Frontend**: A modern Single Page Application (SPA) built with React and Vite.
-- **Backend**: A RESTful API built with Node.js and Express.
-- **Database**: MySQL (via `mysql2`) for persistent storage of users, companies, and attendance records.
-- **Authentication**: Stateless JWT (JSON Web Tokens) based authentication.
+Questo documento fornisce un approfondimento sull'architettura tecnica, le decisioni di design e i dettagli di implementazione dell'applicazione Intern Time Tracker.
 
 ---
 
-## 💻 Frontend Technical Stack
+## 🏗️ Architettura del Sistema
 
-### Core Frameworks
-- **React (v18)**: Component-based UI library.
-- **Vite**: Ultra-fast build tool and development server.
-- **TypeScript**: Used throughout the frontend for type safety and better developer experience.
+L'applicazione segue una classica **architettura Client-Server Full-stack**:
 
-### State Management
-- **React Context API**: The `AuthContext.tsx` handles the global application state, including:
-  - User authentication status.
-  - Lists of all users and attendance records (highly optimized for filtering).
-  - Centralized API calls for data synchronization.
-- **React Query**: Used in complex views like the `AdminRegistry` for efficient data fetching and caching.
+- **Frontend**: Una moderna Single Page Application (SPA) costruita con React e Vite.
+- **Backend**: Una RESTful API costruita con Node.js ed Express.
+- **Database**: MySQL (tramite `mysql2`) per la persistenza di utenti, aziende e record di presenza.
+- **Autenticazione**: Autenticazione stateless basata su JWT (JSON Web Tokens).
+
+---
+
+## 💻 Stack Tecnico Frontend
+
+### Framework Core
+- **React (v18)**: Libreria UI basata su componenti.
+- **Vite**: Strumento di build e server di sviluppo ultra-veloce.
+- **TypeScript**: Utilizzato in tutto il frontend per la sicurezza dei tipi e una migliore esperienza di sviluppo.
+
+### Gestione dello Stato
+- **React Context API**: Il file `AuthContext.tsx` gestisce lo stato globale dell'applicazione, inclusi:
+  - Stato di autenticazione dell'utente.
+  - Liste di tutti gli utenti e record di presenza (altamente ottimizzate per il filtraggio).
+  - Chiamate API centralizzate per la sincronizzazione dei dati.
+- **React Query**: Utilizzato in viste complesse come `AdminRegistry` per il recupero efficiente dei dati e il caching.
 
 ### UI & Styling
-- **Tailwind CSS**: Utility-first CSS framework for rapid styling.
-- **Shadcn/UI**: A collection of re-usable components built with Radix UI and Tailwind.
-- **Lucide React**: Icon library for consistent visual language.
-- **Recharts**: Performance-tuned charting library used for the Calendar statistics.
+- **Tailwind CSS**: Framework CSS utility-first per uno styling rapido.
+- **Shadcn/UI**: Una collezione di componenti riutilizzabili costruiti con Radix UI e Tailwind.
+- **Lucide React**: Libreria di icone per un linguaggio visivo coerente.
+- **Recharts**: Libreria di grafici ottimizzata per le performance, utilizzata per le statistiche del Calendario.
 
-### Layout System (Advanced Responsiveness)
-The main layout (`DashboardLayout.tsx`) uses a unique **Viewport-based design**:
-- `h-[100dvh]` and `vh` units are used to ensure the application fits perfectly on any screen without unintended scrolling.
-- Responsive Sidebar: Collapses to a mobile-friendly bottom bar/header on small devices.
-- CSS Grid & Flexbox: Used extensively for fluid alignment.
-
----
-
-## ⚙️ Backend Technical Stack
-
-### API Layer
-- **Express.js (v5)**: Minimalist web framework for Node.js.
-- **Middleware Architecture**:
-  - `cors`: Configured with strict origin checks.
-  - `helmet`: Enhances API security (configured for `cross-origin` resource sharing to allow profile picture loading).
-  - `express-rate-limit`: Prevents brute-force attacks by limiting request rates per IP.
-  - `jsonwebtoken`: Handles token generation and verification.
-
-### Data & Files
-- **MySQL**: Relational database for structured data.
-- **Multer**: Middleware for handling `multipart/form-data`, used for profile picture uploads.
-- **ExcelJS**: Used to generate professional Excel reports in the Export and Admin views.
+### Sistema di Layout (Responsività Avanzata)
+Il layout principale (`DashboardLayout.tsx`) utilizza un design unico **basato sulla Viewport**:
+- Le unità `h-[100dvh]` e `vh` sono utilizzate per garantire che l'applicazione si adatti perfettamente a qualsiasi schermo senza scrolling indesiderato.
+- Sidebar Responsiva: Si contrae in una barra inferiore o in un header mobile sui dispositivi piccoli.
+- CSS Grid & Flexbox: Utilizzati estensivamente per l'allineamento fluido.
 
 ---
 
-## 🔐 Key Technical Patterns
+## ⚙️ Stack Tecnico Backend
 
-### 1. Attendance Logic
-The attendance system uses an `AttendanceStatus` type: `present`, `late`, or `absent`.
-- Time tracking is split into `morningStart/End` and `afternoonStart/End`.
-- Data is stored in a `records` table indexed by `date` and `userId`.
+### Layer API
+- **Express.js (v5)**: Framework web minimalista per Node.js.
+- **Architettura Middleware**:
+  - `cors`: Configurato con controlli rigorosi sull'origine.
+  - `helmet`: Migliora la sicurezza delle API (configurato per la condivisione di risorse `cross-origin` per consentire il caricamento delle foto del profilo).
+  - `express-rate-limit`: Previene gli attacchi brute-force limitando il numero di richieste per IP.
+  - `jsonwebtoken`: Gestisce la generazione e la verifica dei token.
 
-### 2. Security Patterns
-- **Password Hashing**: Passwords are securely hashed using `bcryptjs` before storage.
-- **Protected Routes**: Frontend routes are guarded by a high-order component logic in `App.tsx` checking the `AuthContext` state.
-- **API Security**: All attendance and user endpoints require a valid JWT `Bearer` token in the request header.
-
-### 3. Responsive Constants
-The project uses a centralized `constants.ts` for:
-- Standardized time slots.
-- Status configurations (colors, labels).
-- Company metadata.
+### Dati & File
+- **MySQL**: Database relazionale per dati strutturati.
+- **Multer**: Middleware per la gestione di `multipart/form-data`, utilizzato per l'upload delle foto del profilo.
+- **ExcelJS**: Utilizzato per generare report Excel professionali nelle viste di Esportazione e Admin.
 
 ---
 
-## 📂 Project Structure
+## 🔐 Pattern Tecnici Chiave
+
+### 1. Logica delle Presenze
+Il sistema delle presenze utilizza un tipo `AttendanceStatus`: `present` (presente), `late` (in ritardo) o `absent` (assente).
+- Il tracciamento del tempo è diviso in `morningStart/End` (inizio/fine mattina) e `afternoonStart/End` (inizio/fine pomeriggio).
+- I dati sono memorizzati in una tabella `records` indicizzata per `date` e `userId`.
+
+### 2. Pattern di Sicurezza
+- **Hashing delle Password**: Le password vengono criptate in modo sicuro usando `bcryptjs` prima della memorizzazione.
+- **Rotte Protette**: Le rotte del frontend sono protette da una logica di componenti high-order in `App.tsx` che controlla lo stato di `AuthContext`.
+- **Sicurezza API**: Tutti gli endpoint delle presenze e degli utenti richiedono un token JWT `Bearer` valido nell'header della richiesta.
+
+### 3. Costanti Responsive
+Il progetto utilizza un file `constants.ts` centralizzato per:
+- Slot temporali standardizzati.
+- Configurazioni di stato (colori, etichette).
+- Metadati aziendali.
+
+---
+
+## 📂 Struttura del Progetto
 
 ```text
-├── src/                # Frontend Source
-│   ├── components/     # UI Components & Dashboard Layout
-│   ├── contexts/       # Auth & Global State
-│   ├── lib/            # Utilities, API config, Constants
-│   ├── pages/          # Individual View Components
-│   └── App.tsx         # Main entry & Routing
-├── server/             # Backend Source
-│   ├── controllers/    # API Logic
-│   ├── routes/         # Endpoint Definitions
-│   ├── services/       # Email & Helper Services
-│   └── index.js        # Server Entry
-├── public/             # Static Assets
-└── PROGRESS.md         # Project Milestones
+├── src/                # Sorgente Frontend
+│   ├── components/     # Componenti UI & Layout Dashboard
+│   ├── contexts/       # Auth & Stato Globale
+│   ├── lib/            # Utility, Config API, Costanti
+│   ├── pages/          # Componenti delle singole viste
+│   └── App.tsx         # Entry point principale & Routing
+├── server/             # Sorgente Backend
+│   ├── controllers/    # Logica API
+│   ├── routes/         # Definizioni degli Endpoint
+│   ├── services/       # Servizi Email & Helper
+│   └── index.js        # Entry point del Server
+├── public/             # Asset Statici
+└── PROGRESS.md         # Milestone del Progetto (in italiano)
 ```
