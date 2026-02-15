@@ -70,6 +70,27 @@ const deleteUser = async (req, res) => {
         console.error(error);
         res.status(500).json({ message: 'Server error' });
     }
-}
+};
 
-module.exports = { getUsers, getUserById, updateUser, deleteUser };
+const uploadProfilePicture = async (req, res) => {
+    try {
+        if (!req.file) {
+            return res.status(400).json({ message: 'No file uploaded' });
+        }
+
+        const profilePicturePath = '/uploads/profiles/' + req.file.filename;
+
+        await db.query('UPDATE users SET profile_picture = ? WHERE id = ?', [profilePicturePath, req.user.id]);
+
+        res.json({
+            message: 'Profile picture updated',
+            profilePicture: profilePicturePath
+        });
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error' });
+    }
+};
+
+module.exports = { getUsers, getUserById, updateUser, deleteUser, uploadProfilePicture };

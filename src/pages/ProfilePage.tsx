@@ -7,7 +7,10 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { toast } from 'sonner';
 import { CheckCircle } from 'lucide-react';
+import { uploadProfilePicture } from '@/lib/api';
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 export default function ProfilePage() {
   const { user, updateProfile } = useAuth();
@@ -50,6 +53,36 @@ export default function ProfilePage() {
                 <Label>Email</Label>
                 <Input value={user.email} disabled className="bg-muted" />
               </div>
+
+              <div className="space-y-2">
+                <Label>Foto Profilo</Label>
+                <div className="flex items-center gap-4">
+                  <Avatar className="h-16 w-16">
+                    <AvatarImage src={user.profilePicture ? `http://localhost:3000${user.profilePicture}` : ''} />
+                    <AvatarFallback className="text-lg bg-primary text-primary-foreground">
+                      {user.firstName[0]}{user.lastName[0]}
+                    </AvatarFallback>
+                  </Avatar>
+                  <div className="grid w-full max-w-sm items-center gap-1.5">
+                    <Label htmlFor="picture">Carica nuova foto</Label>
+                    <Input id="picture" type="file" accept="image/*" onChange={async (e) => {
+                      const file = e.target.files?.[0];
+                      if (file) {
+                        try {
+                          const res = await uploadProfilePicture(file);
+                          // Update local user state immediately for better UX
+                          // ideally we should have a refreshUser method in context
+                          toast.success('Foto caricata! Ricarica la pagina per vederla ovunque.');
+                          window.location.reload();
+                        } catch (err) {
+                          toast.error('Errore durante il caricamento');
+                        }
+                      }
+                    }} />
+                  </div>
+                </div>
+              </div>
+
               <div className="grid grid-cols-2 gap-3">
                 <div className="space-y-2">
                   <Label htmlFor="fn">Nome</Label>

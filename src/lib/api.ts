@@ -65,4 +65,16 @@ export const downloadExcel = async () => {
     }
 };
 
+export const uploadProfilePicture = async (file: File) => {
+    const formData = new FormData();
+    formData.append('profilePicture', file);
+
+    const response = await api.post('/users/upload-picture', formData, {
+        headers: {
+            'Content-Type': 'multipart/form-data',
+        },
+    });
+    return response.data;
+};
+
 export default api;
