@@ -1,4 +1,5 @@
 const db = require('../config/db');
+const ExcelJS = require('exceljs');
 
 // Upsert record (create or update)
 const upsertRecord = async (req, res) => {
@@ -111,37 +112,48 @@ const exportMyRecords = async (req, res) => {
             [req.user.id]
         );
 
-        // CSV Header
-        let csv = 'Data,Stato,Mattina Inizio,Mattina Fine,Pomeriggio Inizio,Pomeriggio Fine,Note\n';
+        const workbook = new ExcelJS.Workbook();
+        const sheet = workbook.addWorksheet('Presenze');
 
-        // Helper to format date YYYY-MM-DD -> DD/MM/YYYY
+        // Define columns
+        sheet.columns = [
+            { header: 'Data', key: 'date', width: 15 },
+            { header: 'Stato', key: 'status', width: 15 },
+            { header: 'Mattina Inizio', key: 'morningStart', width: 25 },
+            { header: 'Mattina Fine', key: 'morningEnd', width: 25 },
+            { header: 'Pomeriggio Inizio', key: 'afternoonStart', width: 25 },
+            { header: 'Pomeriggio Fine', key: 'afternoonEnd', width: 25 },
+            { header: 'Note', key: 'notes', width: 40 }
+        ];
+
+        // Format Date Helper
         const formatDate = (isoDate) => {
             if (!isoDate) return '';
             const [y, m, d] = isoDate.split('-');
             return `${d}/${m}/${y}`;
         };
 
-        // CSV Rows
+        // Add rows
         records.forEach(r => {
             const formattedDate = formatDate(r.date);
-            const fullDate = r.date; // Use YYYY-MM-DD for combining with time for ISO-like timestamp, or use formatted? 
-            // Usually timestamp is YYYY-MM-DD HH:mm:ss. Let's stick to that for the combo, but show DD/MM/YYYY for the Data column.
+            const fullDate = r.date;
 
-            const row = [
-                formattedDate,
-                r.status,
-                r.morningStart ? `${fullDate} ${r.morningStart}` : '',
-                r.morningEnd ? `${fullDate} ${r.morningEnd}` : '',
-                r.afternoonStart ? `${fullDate} ${r.afternoonStart}` : '',
-                r.afternoonEnd ? `${fullDate} ${r.afternoonEnd}` : '',
-                `"${(r.notes || '').replace(/"/g, '""')}"` // Escape quotes in notes
-            ].join(',');
-            csv += row + '\n';
+            sheet.addRow({
+                date: formattedDate,
+                status: r.status,
+                morningStart: r.morningStart ? `${fullDate} ${r.morningStart}` : '',
+                morningEnd: r.morningEnd ? `${fullDate} ${r.morningEnd}` : '',
+                afternoonStart: r.afternoonStart ? `${fullDate} ${r.afternoonStart}` : '',
+                afternoonEnd: r.afternoonEnd ? `${fullDate} ${r.afternoonEnd}` : '',
+                notes: r.notes || ''
+            });
         });
 
-        res.header('Content-Type', 'text/csv');
-        res.header('Content-Disposition', 'attachment; filename="presenze.csv"');
-        res.send(csv);
+        res.header('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        res.header('Content-Disposition', 'attachment; filename="presenze.xlsx"');
+
+        await workbook.xlsx.write(res);
+        res.end();
 
     } catch (error) {
         console.error(error);

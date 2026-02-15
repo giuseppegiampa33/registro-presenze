@@ -19,7 +19,7 @@ api.interceptors.request.use(
     (error) => Promise.reject(error)
 );
 
-export const downloadCsv = async () => {
+export const downloadExcel = async () => {
     try {
         const response = await api.get('/attendance/export', {
             responseType: 'blob',
@@ -29,7 +29,7 @@ export const downloadCsv = async () => {
         const url = window.URL.createObjectURL(new Blob([response.data]));
         const link = document.createElement('a');
         link.href = url;
-        link.setAttribute('download', 'presenze.csv');
+        link.setAttribute('download', 'presenze.xlsx');
 
         // Append to html link element page
         document.body.appendChild(link);
@@ -40,7 +40,7 @@ export const downloadCsv = async () => {
         // Clean up and remove the link
         link.parentNode?.removeChild(link);
     } catch (error) {
-        console.error('Failed to download CSV', error);
+        console.error('Failed to download Excel', error);
         throw error;
     }
 };
