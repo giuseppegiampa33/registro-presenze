@@ -153,7 +153,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const getTodayRecord = useCallback(() => {
     if (!user) return undefined;
-    return records.find(r => String(r.userId) === String(user.id) && r.date === todayStr());
+    const today = todayStr();
+    return records.find(r => {
+      // Handle normalized date comparison (ignore time part if present)
+      const recordDate = typeof r.date === 'string' ? r.date.split('T')[0] : r.date;
+      return String(r.userId) === String(user.id) && recordDate === today;
+    });
   }, [user, records]);
 
   return (
