@@ -50,7 +50,7 @@ const upsertRecord = async (req, res) => {
 };
 
 const recordSelect = `
-    SELECT id, user_id AS userId, date, status, 
+    SELECT id, user_id AS userId, DATE_FORMAT(date, '%Y-%m-%d') as date, status, 
     morning_start AS morningStart, morning_end AS morningEnd, 
     afternoon_start AS afternoonStart, afternoon_end AS afternoonEnd, 
     notes, created_at AS createdAt, updated_at AS updatedAt 
