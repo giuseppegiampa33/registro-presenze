@@ -12,3 +12,7 @@ Sistema di tracciamento presenze per stagisti.
 - [React](https://reactjs.org/)
 - [shadcn-ui](https://ui.shadcn.com/)
 - [Tailwind CSS](https://tailwindcss.com/)
+
+## Credenziali per admin:
+admin@example.com
+admin123

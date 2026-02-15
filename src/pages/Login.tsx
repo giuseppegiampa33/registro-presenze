@@ -56,9 +56,6 @@ export default function Login() {
               Non hai un account?{' '}
               <Link to="/signup" className="font-medium text-primary hover:underline">Registrati</Link>
             </p>
-            <p className="text-center text-xs text-muted-foreground">
-              Demo: admin@registro.it / admin123
-            </p>
           </form>
         </CardContent>
       </Card>
