@@ -92,11 +92,15 @@ export default function InsertData() {
   );
 
   return (
+  return (
     <DashboardLayout>
-      <div className="mx-auto max-w-2xl space-y-6">
-        <h1 className="text-2xl font-bold text-foreground">Inserisci Dati Giornalieri</h1>
+      <div className="flex flex-col h-full gap-4">
+        <div>
+          <h1 className="text-2xl font-bold text-foreground">Inserisci Dati Giornalieri</h1>
+          <p className="text-muted-foreground text-sm">Compila il form per registrare la tua presenza.</p>
+        </div>
 
-        <Card className="border-border">
+        <Card className="border-border flex-1">
           <CardContent className="pt-6">
             <form onSubmit={handleSubmit} className="space-y-5">
               {error && (
