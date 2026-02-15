@@ -6,7 +6,8 @@ import DashboardLayout from '@/components/DashboardLayout';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { CalendarDays, CheckCircle, XCircle, Clock, PenSquare } from 'lucide-react';
+import { CalendarDays, CheckCircle, XCircle, Clock, PenSquare, Download } from 'lucide-react';
+import { downloadCsv } from '@/lib/api';
 
 export default function Dashboard() {
   const { user, getRecordsForUser, getTodayRecord } = useAuth();
@@ -39,11 +40,22 @@ export default function Dashboard() {
   return (
     <DashboardLayout>
       <div className="space-y-6">
-        <div>
-          <h1 className="text-2xl font-bold text-foreground">Benvenuto, {user.firstName}!</h1>
-          <p className="text-muted-foreground">
-            {getCompanyName(user.companyId)} — {new Date().toLocaleDateString('it-IT', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}
-          </p>
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-2xl font-bold text-foreground">Benvenuto, {user.firstName}!</h1>
+            <p className="text-muted-foreground">
+              {getCompanyName(user.companyId)} — {new Date().toLocaleDateString('it-IT', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}
+            </p>
+          </div>
+          <Button variant="outline" onClick={async () => {
+            try {
+              await downloadCsv();
+            } catch (err) {
+              alert('Errore durante il download del CSV');
+            }
+          }}>
+            <Download className="mr-2 h-4 w-4" /> Esporta CSV
+          </Button>
         </div>
 
         {/* Stats */}

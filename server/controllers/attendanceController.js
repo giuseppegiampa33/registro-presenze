@@ -104,4 +104,38 @@ const getAllRecords = async (req, res) => {
     }
 };
 
-module.exports = { upsertRecord, getMyRecords, getUserRecords, getAllRecords };
+const exportMyRecords = async (req, res) => {
+    try {
+        const [records] = await db.query(
+            `${recordSelect} WHERE user_id = ? ORDER BY date DESC`,
+            [req.user.id]
+        );
+
+        // CSV Header
+        let csv = 'Data,Stato,Mattina Inizio,Mattina Fine,Pomeriggio Inizio,Pomeriggio Fine,Note\n';
+
+        // CSV Rows
+        records.forEach(r => {
+            const row = [
+                r.date, // Already formatted by SQL query
+                r.status,
+                r.morningStart || '',
+                r.morningEnd || '',
+                r.afternoonStart || '',
+                r.afternoonEnd || '',
+                `"${(r.notes || '').replace(/"/g, '""')}"` // Escape quotes in notes
+            ].join(',');
+            csv += row + '\n';
+        });
+
+        res.header('Content-Type', 'text/csv');
+        res.header('Content-Disposition', 'attachment; filename="presenze.csv"');
+        res.send(csv);
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error' });
+    }
+};
+
+module.exports = { upsertRecord, getMyRecords, getUserRecords, getAllRecords, exportMyRecords };
