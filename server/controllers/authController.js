@@ -57,6 +57,7 @@ const loginUser = async (req, res) => {
                 email: user.email,
                 role: user.role,
                 companyId: user.company_id,
+                profilePicture: user.profile_picture,
                 token: generateToken(user.id, user.role),
             });
         } else {
@@ -70,7 +71,7 @@ const loginUser = async (req, res) => {
 
 const getMe = async (req, res) => {
     try {
-        const [users] = await db.query('SELECT id, first_name, last_name, email, role, company_id FROM users WHERE id = ?', [req.user.id]);
+        const [users] = await db.query('SELECT id, first_name, last_name, email, role, company_id, profile_picture FROM users WHERE id = ?', [req.user.id]);
         const user = users[0];
         if (user) {
             res.json({
@@ -79,7 +80,8 @@ const getMe = async (req, res) => {
                 lastName: user.last_name,
                 email: user.email,
                 role: user.role,
-                companyId: user.company_id
+                companyId: user.company_id,
+                profilePicture: user.profile_picture
             });
         } else {
             res.status(404).json({ message: 'User not found' });

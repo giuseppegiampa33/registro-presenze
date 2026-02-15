@@ -3,7 +3,7 @@ const bcrypt = require('bcryptjs');
 
 const getUsers = async (req, res) => {
     try {
-        const [users] = await db.query('SELECT id, first_name AS firstName, last_name AS lastName, email, role, company_id AS companyId FROM users');
+        const [users] = await db.query('SELECT id, first_name AS firstName, last_name AS lastName, email, role, company_id AS companyId, profile_picture AS profilePicture FROM users');
         res.json(users);
     } catch (error) {
         console.error(error);
@@ -13,7 +13,7 @@ const getUsers = async (req, res) => {
 
 const getUserById = async (req, res) => {
     try {
-        const [users] = await db.query('SELECT id, first_name AS firstName, last_name AS lastName, email, role, company_id AS companyId FROM users WHERE id = ?', [req.params.id]);
+        const [users] = await db.query('SELECT id, first_name AS firstName, last_name AS lastName, email, role, company_id AS companyId, profile_picture AS profilePicture FROM users WHERE id = ?', [req.params.id]);
         const user = users[0];
 
         if (user) {
@@ -53,7 +53,7 @@ const updateUser = async (req, res) => {
 
         await db.query(updateQuery, queryParams);
 
-        const [updatedUsers] = await db.query('SELECT id, first_name, last_name, email, role, company_id FROM users WHERE id = ?', [userIdToUpdate]);
+        const [updatedUsers] = await db.query('SELECT id, first_name, last_name, email, role, company_id, profile_picture FROM users WHERE id = ?', [userIdToUpdate]);
         res.json(updatedUsers[0]);
 
     } catch (error) {
