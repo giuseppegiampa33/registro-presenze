@@ -92,7 +92,6 @@ export default function InsertData() {
   );
 
   return (
-  return (
     <DashboardLayout>
       <div className="flex flex-col h-full gap-4">
         <div>
