@@ -23,10 +23,10 @@ export default function ExportCsv() {
 
     return (
         <DashboardLayout>
-            <div className="space-y-6">
-                <div>
+            <div className="flex flex-col gap-4">
+                <div className="flex flex-col gap-1">
                     <h1 className="text-2xl font-bold text-foreground">Esporta Dati</h1>
-                    <p className="text-muted-foreground">
+                    <p className="text-sm text-muted-foreground">
                         Scarica i tuoi dati di presenza in formato Excel.
                     </p>
                 </div>
