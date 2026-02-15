@@ -161,4 +161,18 @@ const exportMyRecords = async (req, res) => {
     }
 };
 
-module.exports = { upsertRecord, getMyRecords, getUserRecords, getAllRecords, exportMyRecords };
+
+
+const deleteRecord = async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        await db.query('DELETE FROM attendance_records WHERE id = ?', [id]);
+        res.json({ message: 'Record deleted' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error' });
+    }
+};
+
+module.exports = { upsertRecord, getMyRecords, getUserRecords, getAllRecords, exportMyRecords, deleteRecord };

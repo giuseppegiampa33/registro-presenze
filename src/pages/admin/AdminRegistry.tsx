@@ -9,16 +9,56 @@ import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
-import { Download } from 'lucide-react';
+import { Download, Pencil, Trash2 } from 'lucide-react';
 import type { AttendanceStatus } from '@/lib/types';
+import { EditRecordDialog } from '@/components/admin/EditRecordDialog';
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
+import { updateAttendance, deleteAttendance } from '@/lib/api';
+import { toast } from 'sonner';
+import { useQueryClient } from '@tanstack/react-query';
 
 export default function AdminRegistry() {
   const { users, records } = useAuth();
+  const queryClient = useQueryClient();
   const [filterCompany, setFilterCompany] = useState('all');
   const [filterUser, setFilterUser] = useState('all');
   const [filterStatus, setFilterStatus] = useState('all');
   const [dateFrom, setDateFrom] = useState('');
   const [dateTo, setDateTo] = useState('');
+
+  const [editingRecord, setEditingRecord] = useState<any>(null);
+  const [deletingRecord, setDeletingRecord] = useState<any>(null);
+
+  const handleEdit = (record: any) => {
+    setEditingRecord(record);
+  };
+
+  const handleSaveEdit = async (data: any) => {
+    try {
+      await updateAttendance(data);
+      toast.success('Record aggiornato');
+      queryClient.invalidateQueries({ queryKey: ['records'] });
+    } catch (error) {
+      toast.error('Errore durante l\'aggiornamento');
+      throw error;
+    }
+  };
+
+  const handleDelete = (record: any) => {
+    setDeletingRecord(record);
+  };
+
+  const confirmDelete = async () => {
+    if (!deletingRecord) return;
+    try {
+      await deleteAttendance(deletingRecord.id);
+      toast.success('Record eliminato');
+      setDeletingRecord(null);
+      queryClient.invalidateQueries({ queryKey: ['records'] });
+    } catch (error) {
+      toast.error('Errore durante l\'eliminazione');
+    }
+  };
 
   const interns = users.filter(u => u.role === 'intern');
 
@@ -126,6 +166,7 @@ export default function AdminRegistry() {
                   <TableHead>Mattina</TableHead>
                   <TableHead>Pomeriggio</TableHead>
                   <TableHead>Note</TableHead>
+                  <TableHead className="text-right">Azioni</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -148,6 +189,16 @@ export default function AdminRegistry() {
                         {r.afternoonStart ? `${r.afternoonStart}–${r.afternoonEnd}` : '—'}
                       </TableCell>
                       <TableCell className="text-sm text-muted-foreground">{r.notes ?? '—'}</TableCell>
+                      <TableCell className="text-right">
+                        <div className="flex justify-end gap-2">
+                          <Button variant="ghost" size="icon" onClick={() => handleEdit(r)}>
+                            <Pencil className="h-4 w-4" />
+                          </Button>
+                          <Button variant="ghost" size="icon" className="text-destructive hover:text-destructive" onClick={() => handleDelete(r)}>
+                            <Trash2 className="h-4 w-4" />
+                          </Button>
+                        </div>
+                      </TableCell>
                     </TableRow>
                   );
                 })}
@@ -161,6 +212,30 @@ export default function AdminRegistry() {
           </CardContent>
         </Card>
       </div>
-    </DashboardLayout>
+
+      <EditRecordDialog
+        open={!!editingRecord}
+        onOpenChange={(open) => !open && setEditingRecord(null)}
+        record={editingRecord}
+        onSave={handleSaveEdit}
+      />
+
+      <AlertDialog open={!!deletingRecord} onOpenChange={(open) => !open && setDeletingRecord(null)}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Sei sicuro?</AlertDialogTitle>
+            <AlertDialogDescription>
+              Questa azione non può essere annullata. Il record del <strong>{deletingRecord?.date}</strong> verrà eliminato permanentemente.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Annulla</AlertDialogCancel>
+            <AlertDialogAction onClick={confirmDelete} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
+              Elimina
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+    </DashboardLayout >
   );
 }

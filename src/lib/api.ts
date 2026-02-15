@@ -19,6 +19,26 @@ api.interceptors.request.use(
     (error) => Promise.reject(error)
 );
 
+export const getAllRecords = async (date?: string) => {
+    let url = '/attendance/all';
+    if (date) {
+        url += `?date=${date}`;
+    }
+    const response = await api.get(url);
+    return response.data;
+};
+
+export const deleteAttendance = async (id: number) => {
+    const response = await api.delete(`/attendance/${id}`);
+    return response.data;
+};
+
+// Re-using upsert for admin updates, but explicit naming helps clarity
+export const updateAttendance = async (data: any) => {
+    const response = await api.post('/attendance', data);
+    return response.data;
+};
+
 export const downloadExcel = async () => {
     try {
         const response = await api.get('/attendance/export', {
