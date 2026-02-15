@@ -75,10 +75,10 @@ export default function CalendarPage() {
 
   return (
     <DashboardLayout>
-      <div className="space-y-6">
-        <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-1">
           <h1 className="text-2xl font-bold text-foreground">Calendario Presenze</h1>
-          <p className="text-muted-foreground">Gestisci e visualizza le tue presenze mensili.</p>
+          <p className="text-sm text-muted-foreground">Gestisci e visualizza le tue presenze mensili.</p>
         </div>
 
         <div className="grid gap-6 md:grid-cols-3">

@@ -11,8 +11,11 @@ export default function AdminUsers() {
 
   return (
     <DashboardLayout>
-      <div className="space-y-6">
-        <h1 className="text-2xl font-bold text-foreground">Elenco Tirocinanti</h1>
+      <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-1">
+          <h1 className="text-2xl font-bold text-foreground">Elenco Tirocinanti</h1>
+          <p className="text-sm text-muted-foreground">Lista completa di tutti i tirocinanti registrati nel sistema.</p>
+        </div>
         <Card className="border-border">
           <CardContent className="p-0">
             <Table>

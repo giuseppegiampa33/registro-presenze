@@ -35,10 +35,10 @@ export default function ProfilePage() {
 
   return (
     <DashboardLayout>
-      <div className="flex flex-col h-full gap-4">
-        <div>
+      <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-1">
           <h1 className="text-2xl font-bold text-foreground">Profilo & Impostazioni</h1>
-          <p className="text-muted-foreground text-sm">Gestisci le tue informazioni personali.</p>
+          <p className="text-sm text-muted-foreground">Gestisci le tue informazioni personali.</p>
         </div>
 
         <Card className="border-border flex-1">

@@ -101,9 +101,14 @@ export default function AdminRegistry() {
 
   return (
     <DashboardLayout>
-      <div className="space-y-6">
-        <div className="flex items-center justify-between">
+      <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-1">
           <h1 className="text-2xl font-bold text-foreground">Registro Generale</h1>
+          <p className="text-sm text-muted-foreground">Visualizza e gestisci lo storico di tutte le presenze.</p>
+        </div>
+
+        <div className="flex items-center justify-between">
+          <div /> {/* Spacer if needed or keep it simple */}
           <Button variant="outline" onClick={exportCSV} disabled={filtered.length === 0}>
             <Download className="mr-1 h-4 w-4" /> Esporta CSV
           </Button>

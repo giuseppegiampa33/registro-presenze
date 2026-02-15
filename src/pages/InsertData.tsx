@@ -93,10 +93,10 @@ export default function InsertData() {
 
   return (
     <DashboardLayout>
-      <div className="flex flex-col h-full gap-4">
-        <div>
+      <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-1">
           <h1 className="text-2xl font-bold text-foreground">Inserisci Dati Giornalieri</h1>
-          <p className="text-muted-foreground text-sm">Compila il form per registrare la tua presenza.</p>
+          <p className="text-sm text-muted-foreground">Compila il form per registrare la tua presenza.</p>
         </div>
 
         <Card className="border-border flex-1">

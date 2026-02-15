@@ -29,8 +29,11 @@ export default function AdminDashboard() {
 
   return (
     <DashboardLayout>
-      <div className="space-y-6">
-        <h1 className="text-2xl font-bold text-foreground">Dashboard Admin</h1>
+      <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-1">
+          <h1 className="text-2xl font-bold text-foreground">Dashboard Admin</h1>
+          <p className="text-sm text-muted-foreground">Panoramica generale delle presenze di tutti i tirocinanti.</p>
+        </div>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {cards.map(c => (
             <Card key={c.label} className="border-border">

@@ -39,13 +39,11 @@ export default function Dashboard() {
   return (
     <DashboardLayout>
       <div className="flex flex-col h-full gap-[2vh]">
-        <div className="flex items-center justify-between shrink-0">
-          <div>
-            <h1 className="text-2xl font-bold text-foreground">ciao, {user.firstName}!</h1>
-            <p className="text-muted-foreground text-sm">
-              {getCompanyName(user.companyId)}
-            </p>
-          </div>
+        <div className="flex flex-col gap-1 shrink-0">
+          <h1 className="text-2xl font-bold text-foreground">ciao, {user.firstName}!</h1>
+          <p className="text-sm text-muted-foreground">
+            {getCompanyName(user.companyId)}
+          </p>
         </div>
 
         {/* Stats - Grid constrained by VH */}
