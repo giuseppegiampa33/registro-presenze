@@ -50,6 +50,9 @@ export default function Login() {
             <div className="space-y-2">
               <Label htmlFor="password">Password</Label>
               <Input id="password" type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="••••••••" required />
+              <div className="text-right mt-1">
+                <Link to="/forgot-password" className="text-xs text-primary hover:underline">Password dimenticata?</Link>
+              </div>
             </div>
             <Button type="submit" className="w-full">Accedi</Button>
             <p className="text-center text-sm text-muted-foreground">
