@@ -8,9 +8,16 @@ const rateLimit = require('express-rate-limit');
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 
-// Security Headers
+const fs = require('fs');
+app.use((req, res, next) => {
+    // const log = `[${new Date().toISOString()}] ${req.method} ${req.url}\n`;
+    // fs.appendFileSync('server_requests.log', log);
+    console.log(`[${new Date().toISOString()}] ${req.method} ${req.url} from Origin: ${req.headers.origin}`);
+    next();
+});
+
 // Security Headers
 app.use(helmet({
     crossOriginResourcePolicy: { policy: "cross-origin" }
@@ -24,9 +31,12 @@ const limiter = rateLimit({
 });
 app.use(limiter);
 
+
+
 // Strict CORS
 const corsOptions = {
-    origin: process.env.FRONTEND_URL || 'http://localhost:8080', // Allow only frontend origin
+    origin: true, // REFLECTION: Allow any origin for debugging
+    credentials: true,
     optionsSuccessStatus: 200
 };
 app.use(cors(corsOptions));
@@ -52,3 +62,23 @@ app.get('/', (req, res) => {
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
+
+process.on('exit', (code) => {
+    console.log(`Process exited with code: ${code}`);
+});
+
+process.on('SIGINT', () => {
+    console.log('Received SIGINT. Press Control-D to exit.');
+});
+
+process.on('uncaughtException', (err) => {
+    console.error('Uncaught Exception:', err);
+});
+
+process.on('unhandledRejection', (reason, promise) => {
+    console.error('Unhandled Rejection at:', promise, 'reason:', reason);
+});
+
+// Prevent process from exiting by keeping the event loop alive
+// This fixes an issue where the server would exit immediately after startup
+setInterval(() => { }, 1 << 30);

@@ -61,7 +61,7 @@ export default function ProfilePage() {
                 <Label>Foto Profilo</Label>
                 <div className="flex items-center gap-4">
                   <Avatar className="h-16 w-16">
-                    <AvatarImage src={user.profilePicture ? `http://localhost:3000${user.profilePicture}` : ''} />
+                    <AvatarImage src={user.profilePicture ? `http://localhost:3002${user.profilePicture}` : ''} />
                     <AvatarFallback className="text-lg bg-primary text-primary-foreground">
                       {user.firstName[0]}{user.lastName[0]}
                     </AvatarFallback>
